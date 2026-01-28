@@ -2,7 +2,7 @@
 
 ## About This Program
 
-This program is designed to allow relative input in an RDP (VNC) session by wrapping an existing remote desktop client window with another window and sending the client's input information using an SSH session. Currently, only sessions from a Windows machine to a Windows or Linux machine are supported.
+This program is designed to allow relative input in an RDP (VNC) session by wrapping an existing remote desktop client window with another window and sending the client's input information using an SSH session. Windows/Linux hosts are supported, and clients are supported on Windows, Linux (WIP), and macOS.
 
 ![sample](https://gyazo.com/5b6e57408136ba4fcebfd2525b7dc232.gif)
 
@@ -43,6 +43,11 @@ go install github.com/TKMAX777/RemoteRelativeInput/cmd/RelativeInputTransferer@l
 ```sh
 go install github.com/TKMAX777/RemoteRelativeInput/cmd/RelativeInputClient@latest
 ```
+
+#### macOS client notes
+
+- The macOS client uses an event tap to capture keyboard/mouse events, which requires Input Monitoring (and sometimes Accessibility) permission in System Settings.
+- Window title filtering via `CLIENT_NAME` is not yet supported on macOS; input capture is global.
 
 ## Usage
 
@@ -99,6 +104,12 @@ RelativeInputClient.exe | ssh <HostUsername>@<HostAddress> "C:\Users\<HostFolder
 ```sh
 set CLIENT_NAME=<hostname> - Remote Desktop Connection
 RelativeInputClient.exe | ssh <hostname> /home/<UserName>/go/bin/RelativeInputServer
+```
+
+### Connect from macOS (client)
+
+```sh
+RelativeInputClient | ssh <hostname> /home/<UserName>/go/bin/RelativeInputServer
 ```
 
   ☆ The mouse cursor disappears during relative input mode. If you need the cursor, use the F8 key to switch to absolute input.<br />
